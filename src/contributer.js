@@ -1,6 +1,6 @@
 const {fetch} = require('./fetch.js')
 
-class User {
+class Contributer {
   constructor(login, avatar, url) {
     this.login = login;
     this.avatar = avatar;
@@ -14,4 +14,4 @@ class User {
   }
 }
 
-module.exports.User = User;
+module.exports.Contributer = Contributer;

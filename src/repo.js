@@ -1,17 +1,25 @@
-const {User} = require('./user.js')
+const {Contributer} = require('./contributer.js')
 const {fetch} = require('./fetch.js')
 
 class Repo {
   constructor(owner, name) {
     this.owner = owner;
     this.name = name;
-    this.collaborators = [];
+    this.contributers = [];
   }
 
-  async fetchCollaborators() {
-    let data = await fetch('GET /repos/:user/:repo/collaborators',{user: this.owner, repo: this.name});
+  async fetchContributers() {
+    let data = await fetch('GET /repos/:user/:repo/contributors',{user: this.owner, repo: this.name});
     data.forEach(
-        c => this.collaborators.push(new User(c.login, c.avatar_url, c.url)));
+        c => this.contributers.push(
+            new Contributer(c.login, c.avatar_url, c.url)));
+  }
+
+  async fetchContributersPersonalData(){
+    await this.fetchContributers();
+    for (const c of this.contributers) {
+      await c.fetchPersonalData()
+    }
   }
 }
 
