@@ -1,0 +1,16 @@
+{
+  "name": "thesis-code",
+  "version": "1.0.0",
+  "description": "Fetch the data about users",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run src/index.js"
+  },
+  "author": "Miri Yusifli",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/core": "^3.1.4"
+  },
+  "devDependencies": {}
+}
