@@ -104,7 +104,7 @@ dist
 .tern-port
 
 # CSV files
-*.csv
+data/
 
 # VS code files
 .vscode/
