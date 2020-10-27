@@ -9,10 +9,25 @@ class Repo {
   }
 
   async fetchContributers() {
-    let data = await fetch('GET /repos/:user/:repo/contributors',{user: this.owner, repo: this.name});
+    let data = await fetch('GET /repos/:user/:repo/stats/contributors',{user: this.owner, repo: this.name});
     data.forEach(
-        c => this.contributers.push(
-            new Contributer(c.login, c.avatar_url, c.url)));
+      c=>{
+        const login=c.author.login;
+        const avatar_url=c.author.avatar_url;
+        const url=c.author.url;
+        const commitCount=c.total;
+        let additionsCount=0;
+        let deletionsCount=0;
+
+        c.weeks.forEach(
+          w=>{
+            additionsCount+=w.a;
+            deletionsCount+=w.d;
+          }
+        )
+      
+      this.contributers.push(new Contributer(login, avatar_url, url,commitCount,additionsCount,deletionsCount))}
+    );
   }
 
   async fetchContributersPersonalData(){

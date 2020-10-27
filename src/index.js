@@ -6,7 +6,9 @@ const {Parser} = require('json2csv');
 const repos = CONFIG.repos;
 
 // order the fields for CSV file
-const fields = ['login', 'name', 'location', 'avatar', 'url'];
+const fields = [
+  'login', 'name', 'location', 'commitCount', 'additionsCount', 'deletionsCount', 'avatar', 'url'
+];
 
 //folder that contains fetched data
 var dir = './data';
