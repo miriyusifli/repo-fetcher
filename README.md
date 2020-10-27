@@ -13,3 +13,9 @@ Open *config.json* and set the following parameters.
   "name": "repo-fetcher"
 }
 ```
+## How to run?
+Run the following command to fetch data. \
+```
+$ npm run start
+```
+After successful completion check ```data``` folder.
