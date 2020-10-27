@@ -23,11 +23,11 @@ async function run() {
     
     console.log('Data fetching...')
     
-    const contributers = await repo.fetchContributersPersonalData();
+    await repo.fetchContributersPersonalData();
 
     console.log('Data converting from json to csv...')
-    
-    const csv = parser.parse(contributers);
+
+    const csv = parser.parse(repo.contributers);
     
     console.log('Data writing to file....')
     
