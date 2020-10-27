@@ -7,14 +7,14 @@ Open *config.json* and set the following parameters.
   - **owner:** Owner of the repository
   - **name:** name of the repository\
 *For example:* https://github.com/miriyusifli/repo-fetcher should be set like that
-```
-{
-  "owner": "miriyusifli",
-  "name": "repo-fetcher"
-}
-```
+  ```
+  {
+    "owner": "miriyusifli",
+    "name": "repo-fetcher"
+  }
+  ```
 ## How to run?
-Run the following command to fetch data. \
+Run the following command to fetch data.
 ```
 $ npm run start
 ```
