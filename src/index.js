@@ -17,7 +17,7 @@ var dir = './data';
 const parser = new Parser({fields});
 
 //main function
-async function run() {
+async function main() {
   for (const r of repos) {
     console.log(`--${r.name} repo is processing--`)
 
@@ -36,8 +36,11 @@ async function run() {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
     }
-    fs.writeFileSync(`./data/${r.name}.csv`, csv);
-    
+
+    const currentDateTime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+
+    fs.writeFileSync(`./data/${r.name}-${currentDateTime}.csv`, csv);
+
     console.log(`-----Processed-----`)
     console.log("-------------------------------")
   }
@@ -45,4 +48,4 @@ async function run() {
   console.log('Completed!')
 }
 
-run();
+main();
