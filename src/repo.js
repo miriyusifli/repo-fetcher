@@ -9,31 +9,26 @@ class Repo {
   }
 
   async fetchContributers() {
-    let data = await fetch('GET /repos/:user/:repo/stats/contributors',{user: this.owner, repo: this.name});
-    data.forEach(
-      c=>{
-        const login=c.author.login;
-        const avatar_url=c.author.avatar_url;
-        const url=c.author.url;
-        const commitCount=c.total;
-        let additionsCount=0;
-        let deletionsCount=0;
+    let page = 1;
+    while (true) {
+      let data = await fetch(
+          'GET /repos/:user/:repo/contributors?page=:page_num&per_page=100&anon=true',
+          {user: this.owner, repo: this.name, page_num: page});
+      if (data.length == 0) break;
 
-        c.weeks.forEach(
-          w=>{
-            additionsCount+=w.a;
-            deletionsCount+=w.d;
-          }
-        )
-      
-      this.contributers.push(new Contributer(login, avatar_url, url,commitCount,additionsCount,deletionsCount))}
-    );
-  }
+      for (const c of data) {
+        const login = c.login;
+        const url = c.url;
+        const commitCount = c.contributions;
+        const name = c.name;
 
-  async fetchContributersPersonalData(){
-    await this.fetchContributers();
-    for (const c of this.contributers) {
-      await c.fetchPersonalData()
+        const contributor = new Contributer(login, name, commitCount, url);
+        if (contributor.name == undefined)
+          await contributor.fetchPersonalData();
+
+        this.contributers.push(contributor);
+      }
+      page++;
     }
   }
 }
