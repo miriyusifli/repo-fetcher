@@ -1,12 +1,12 @@
-const CONFIG = require('./../config.json')
+const config = require('./../config.json')
 const fs = require('fs');
 const {Repo} = require('./repo')
 const {Parser} = require('json2csv');
 
-const repos = CONFIG.repos;
+const repos = config.repos;
 
 // order the fields for CSV file
-const fields = ['login', 'name', 'commitCount', 'url'];
+const fields = ['username', 'name', 'commitCount'];
 
 // folder that contains fetched data
 var dir = './data';
@@ -17,7 +17,7 @@ const parser = new Parser({fields});
 // main function
 async function main() {
   for (const r of repos) {
-    console.log(`--${r.name} repo is processing--`)
+    console.log(`--${r.owner}/${r.name} is processing--`)
 
     const repo = new Repo(r.owner, r.name);
 
@@ -35,10 +35,9 @@ async function main() {
       fs.mkdirSync(dir);
     }
 
-    const currentDateTime =
-        new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+    const currentDateTime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
 
-    fs.writeFileSync(`./data/${r.name}-${currentDateTime}.csv`, csv);
+    fs.writeFileSync(`./data/${r.name}-${currentDateTime} UTC.csv`, csv);
 
     console.log(`-----Processed-----`)
     console.log('-------------------------------')

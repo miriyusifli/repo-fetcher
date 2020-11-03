@@ -1,5 +1,5 @@
 const {Contributer} = require('./contributer.js')
-const {fetch} = require('./fetch.js')
+const {Github} = require('./octokit.js')
 
 class Repo {
   constructor(owner, name) {
@@ -11,18 +11,21 @@ class Repo {
   async fetchContributers() {
     let page = 1;
     while (true) {
-      let data = await fetch(
-          'GET /repos/:user/:repo/contributors?page=:page_num&per_page=100&anon=true',
-          {user: this.owner, repo: this.name, page_num: page});
-      if (data.length == 0) break;
+      const {data: contributers} = await Github.repos.listContributors({
+            owner: this.owner,
+            repo: this.name,
+            page: page,
+            anon: true
+          });
 
-      for (const c of data) {
-        const login = c.login;
-        const url = c.url;
+      if (contributers.length == 0) break;
+
+      for (const c of contributers) {
+        const username = c.login;
         const commitCount = c.contributions;
         const name = c.name;
 
-        const contributor = new Contributer(login, name, commitCount, url);
+        const contributor = new Contributer(username, name, commitCount);
         if (contributor.name == undefined)
           await contributor.fetchPersonalData();
 

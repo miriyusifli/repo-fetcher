@@ -1,16 +1,17 @@
-const {fetch} = require('./fetch.js')
+const {Github} = require('./octokit.js')
 
 class Contributer {
-  constructor(login, name, commitCount, url) {
-    this.login = login;
+  constructor(username, name, commitCount) {
+    this.username = username;
     this.name = name;
     this.commitCount = commitCount;
-    this.url = url;
   }
 
   async fetchPersonalData() {
-    let data = await fetch(this.url);
-    this.name = data.name;
+    const {data: user} = await Github.users.getByUsername({
+      username:this.username
+    });
+    this.name = user.name;
   }
 }
 
